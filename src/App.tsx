@@ -1,20 +1,23 @@
 import Canvas from '@antv/f-react';
-import { Timeline } from '@antv/f-engine';
-import Bar from './components/bar';
-import Rect from './components/Rect';
+import { Chart, Interval } from '@antv/f2'
 
+const data = [
+  { genre: 'Sports', sold: 275 },
+  { genre: 'Strategy', sold: 115 },
+  { genre: 'Action', sold: 120 },
+  { genre: 'Shooter', sold: 350 },
+  { genre: 'Other', sold: 150 },
+];
 function App() {
   return (
     <div className="App">
-      <canvas id="container" width="400" height="260"></canvas>
       <Canvas pixelRatio={window.devicePixelRatio}>
-        <Timeline delay={500}>
-          {[10, 100].map((v, index) => {
-            return <Rect key={index} index={index} width={v} />;
-          })}
-        </Timeline>
+        <Chart data={data}
+          style={{padding: [0, 0, 0, 0]}}
+          >
+          <Interval x="genre" y="sold" />
+        </Chart>
       </Canvas>
-      <Bar />
     </div>
   );
 }
