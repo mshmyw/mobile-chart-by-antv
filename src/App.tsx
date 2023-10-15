@@ -12,12 +12,12 @@ const data = [
 function App() {
   return (
     <div className="App">
-      <Canvas pixelRatio={window.devicePixelRatio}>
+      {/* <Canvas pixelRatio={window.devicePixelRatio}>
         <Chart data={data} style={{padding: [0, 0, 0, 0]}}>
           <Interval x="genre" y="sold" />
         </Chart>
-      </Canvas>
-      {/* <Bar /> */}
+      </Canvas> */}
+      <Bar />
     </div>
   );
 }
