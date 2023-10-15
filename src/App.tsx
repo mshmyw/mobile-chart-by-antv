@@ -1,4 +1,4 @@
-import Canvas from '@antv/f-react';
+import Canvas from '@antv/f2-react';
 import { Chart, Interval } from '@antv/f2'
 
 const data = [
