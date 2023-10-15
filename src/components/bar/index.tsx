@@ -11,13 +11,13 @@ const data = [
 
 const Bar = () => {
   return (
-   <div>
+   <>
      <Canvas pixelRatio={window.devicePixelRatio}>
-      <Chart data={data}>
+      <Chart data={data} style={{padding: [0, 0, 0, 0]}}>
         <Interval x="genre" y="sold" />
       </Chart>
     </Canvas>
-   </div>
+   </>
   )
 }
 
