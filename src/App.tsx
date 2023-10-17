@@ -4,7 +4,7 @@ import RadarChart from './components/radar';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <BarChart />
       <LineChart />
       <RadarChart />
