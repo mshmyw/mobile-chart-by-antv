@@ -1,10 +1,10 @@
 import Canvas from '@antv/f-react';
 import { Chart, Interval } from '@antv/f2'
-import { mockDataSource } from '../../mock-data';
+import { mockBarDataSource } from '../../mock-data';
 
 
-const dataSource = mockDataSource
-const Bar = () => {
+const dataSource = mockBarDataSource
+const BarChart = () => {
   return (
    <>
      <Canvas pixelRatio={window.devicePixelRatio}>
@@ -16,4 +16,4 @@ const Bar = () => {
   )
 }
 
-export default Bar
+export default BarChart
