@@ -5,6 +5,14 @@ import { mockLineData } from '../../mock-data';
 
 const dataSource = mockLineData
 const LineChart = () => {
+  const onTooltipChange = (records: any) => {
+    console.log("records=====", records)
+    const record = records[0]
+    if(record) {
+        delete record.name
+    }
+  }
+
   return (
    <>
      <Canvas pixelRatio={window.devicePixelRatio}>
@@ -18,7 +26,7 @@ const LineChart = () => {
         />
         <Axis field="value" tickCount={5} />
         <Line x="date" y="value" />
-        <Tooltip />
+        <Tooltip onChange={onTooltipChange} />
       </Chart>
     </Canvas>
    </>
