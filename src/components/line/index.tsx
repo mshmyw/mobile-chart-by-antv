@@ -31,11 +31,6 @@ const LineChart = (props: LineChartProps) => {
     ...option.axis[1],
     visible: !!data.length
   })
-  const lineProps = getLineProps({
-    dim,
-    scale,
-    ...option.line
-  })
   const tooltipProps = getTooltipProps({
     defaultItem: tooltip.defaultItem,
     ...tooltip,
@@ -59,7 +54,11 @@ const LineChart = (props: LineChartProps) => {
   if (rest.coord) {
       newOption['coord'] = rest.coord;
   }
-  console.log("Line Option=====", xAxisProps, scale, lineProps)
+  const lineProps = getLineProps({
+    dim,
+    scale,
+    ...option.line
+  })
   return (
    <>
      <Canvas pixelRatio={window.devicePixelRatio}>
@@ -67,7 +66,7 @@ const LineChart = (props: LineChartProps) => {
         <Axis
             {...xAxisProps}
         />
-        {/* <Axis {...yAxisProps} /> */}
+        <Axis {...yAxisProps} />
         <Line {...lineProps} />
         <Tooltip {...tooltipProps} onChange={onTooltipChange} />
       </Chart>

@@ -6,8 +6,7 @@ interface TooltipWrapperProps {
 }
 
 const getTooltipProps = (props: TooltipWrapperProps) => {
-    const {option} = props
-    const newOption  = deepMix({}, defaultTooltip, option);
+    const newOption  = deepMix({}, defaultTooltip, props);
 
   return newOption
 }

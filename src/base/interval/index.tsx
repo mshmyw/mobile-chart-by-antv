@@ -1,30 +1,14 @@
 import {  Interval } from '@antv/f2'
-import { useEffect } from 'react';
+import getIntervalProps from './utils'
 
 interface IntervalWrapperProps {
-    option: any
+  [key: string]: any
 }
 
 const IntervalWrapper = (props: IntervalWrapperProps) => {
-    const {option} = props
-    const {
-        scale = [],
-        dim,
-        color,
-        ...rest
-    } = option;
-  useEffect(() =>{
-    // initInterval()
-  }, [])
-  const fields = scale.map((item: Record<string, any>) => item.dataKey);
-  const newOption = {
-      x: fields[0],
-      y: fields[1],
-      color: [dim, color],
-      ...rest
-  };
+  const newOption: any = getIntervalProps(props)
   return (<>
-  <Interval {...newOption} />
+    <Interval {...newOption} />
   </>)
 }
 
