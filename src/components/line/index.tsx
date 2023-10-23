@@ -1,32 +1,75 @@
 import Canvas from '@antv/f-react';
 import { Chart, Line, Axis, Tooltip } from '@antv/f2'
-import { mockLineData } from '../../mock-data';
+import { tooltipFormatter } from '../../utils/format';
+import { IRecord } from '../../types';
+import { deepMix } from "@antv/util";
+import { defaultOption } from './const';
+// import Axis from "../../base/axis" // TODO: how use sub com
+import getAxisProps from '../../base/axis/utils';
+import getLineProps from '../../base/line/utils';
+import getTooltipProps from '../../base/tooltip/utils';
 
-
-const dataSource = mockLineData
-const LineChart = () => {
-  const onTooltipChange = (records: any) => {
-    console.log("records=====", records)
-    const record = records[0]
-    if(record) {
-        delete record.name
-    }
+interface LineChartProps {
+  [key: string]: any
+}
+const LineChart = (props: LineChartProps) => {
+  const option = deepMix({}, defaultOption, props);
+  const { data = [], dim, scale, tooltip, legend, ...rest } = option;
+  const fields = scale.map((item: any) => item.dataKey);
+  const tickCounts = scale.map((item: any) => item.tickCount);
+  const xAxisProps =getAxisProps({
+    field: fields[0],
+    tickCount: tickCounts[0],
+    ...option.axis[0],
+    visible: !!data.length
+  })
+  const yAxisProps = getAxisProps({
+    yField: true,
+    scale,
+    field: fields[1],
+    tickCount: tickCounts[1],
+    ...option.axis[1],
+    visible: !!data.length
+  })
+  const lineProps = getLineProps({
+    dim,
+    scale,
+    ...option.line
+  })
+  const tooltipProps = getTooltipProps({
+    defaultItem: tooltip.defaultItem,
+    ...tooltip,
+    visible: !!data.length,
+  })
+  const onTooltipChange = (records: IRecord[]) => {
+    tooltipFormatter(records)
+  }
+  const convertChartScale = (scale: Record<string, any>[]) => {
+    const chartScale = scale.reduce((acc: Record<string, any>, cur: Record<string, any>) => {
+        acc[cur.dataKey] = cur;
+        return acc;
+    }, {});
+    return chartScale;
+  }
+  const newOption: any = {
+    data,
+    scale: convertChartScale(scale)
   }
 
+  if (rest.coord) {
+      newOption['coord'] = rest.coord;
+  }
+  console.log("Line Option=====", xAxisProps, scale, lineProps)
   return (
    <>
      <Canvas pixelRatio={window.devicePixelRatio}>
-      <Chart data={dataSource}>
+      <Chart {...newOption}>
         <Axis
-            field="date"
-            tickCount={3}
-            style={{
-            label: { align: 'between' },
-            }}
+            {...xAxisProps}
         />
-        <Axis field="value" tickCount={5} />
-        <Line x="date" y="value" />
-        <Tooltip onChange={onTooltipChange} />
+        {/* <Axis {...yAxisProps} /> */}
+        <Line {...lineProps} />
+        <Tooltip {...tooltipProps} onChange={onTooltipChange} />
       </Chart>
     </Canvas>
    </>

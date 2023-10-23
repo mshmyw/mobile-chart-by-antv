@@ -1,9 +1,9 @@
 import Canvas from '@antv/f-react';
 import { Chart, Line, Axis, Point, Legend } from '@antv/f2'
-import { mockRadarData } from '../../mock-data';
+import { mockRadarData1 } from '../../mock-data';
 
 
-const dataSource = mockRadarData
+const dataSource = mockRadarData1
 const RadarChart = () => {
   return (
    <>
