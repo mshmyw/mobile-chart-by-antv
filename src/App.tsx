@@ -54,12 +54,37 @@ const barProps = {
     transposed: false,
   }
 }
+
+const radarProps = {
+  data: dataSource,
+  dim: 'name',
+  scale: [
+    {
+      dataKey: 'time',
+      tickCount: 4,
+    },
+    {
+      dataKey: 'value',
+      tickCount: 5,
+      dataType: 'number'
+    },
+  ],
+  tooltip: {
+    defaultItem: dataSource[0]
+  },
+  coord: {
+    // 声明直角坐标系
+    type: 'rect',
+    // 是否对坐标系进行转置
+    transposed: false,
+  }
+}
 function App() {
   return (
     <div className="app">
-      <BarChart  {...barProps} />
+      {/* <BarChart  {...barProps} /> */}
       {/* <LineChart {...lineProps} /> */}
-      {/* <RadarChart /> */}
+      <RadarChart />
     </div>
   );
 }
