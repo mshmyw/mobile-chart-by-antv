@@ -1,23 +1,18 @@
 import Canvas from '@antv/f-react';
 import { Chart, Line, Axis, Point, Tooltip } from '@antv/f2'
-import { tooltipFormatter } from '../../utils/format';
-import { IRecord } from '../../types';
 import { deepMix } from "@antv/util";
 import { defaultOption } from './const';
 import getAxisProps from '../../base/axis/utils';
 import getLineProps from '../../base/line/utils';
-
-import { mockRadarData2 } from '../../mock-data';
 import getTooltipProps from '../../base/tooltip/utils';
 
 
-const dataSource = mockRadarData2
 interface RadarChartProps {
   [key: string]: any
 }
 const RadarChart = (props: RadarChartProps) => {
   const option = deepMix({}, defaultOption, props);
-  const { data = [], dim, scale, tooltip, legend, ...rest } = option;
+  const { data = [], dim, scale, coord="polar", tooltip, legend, ...rest } = option;
   const fields = scale.map((item: any) => item.dataKey);
   const tickCounts = scale.map((item: any) => item.tickCount);
   const xAxisProps =getAxisProps({
@@ -37,11 +32,9 @@ const RadarChart = (props: RadarChartProps) => {
   const tooltipProps = getTooltipProps({
     defaultItem: tooltip.defaultItem,
     ...tooltip,
+    custom: true,
     visible: !!data.length,
   })
-  const onTooltipChange = (records: IRecord[]) => {
-    tooltipFormatter(records)
-  }
   const convertChartScale = (scale: Record<string, any>[]) => {
     const chartScale = scale.reduce((acc: Record<string, any>, cur: Record<string, any>) => {
         acc[cur.dataKey] = cur;
@@ -51,33 +44,28 @@ const RadarChart = (props: RadarChartProps) => {
   }
   const newOption: any = {
     data,
+    coord,
     scale: convertChartScale(scale)
   }
+
+  const lineProps = getLineProps({
+    dim,
+    scale,
+    isPolar: true,
+    ...option.line
+  })
   return (
    <>
      <Canvas pixelRatio={window.devicePixelRatio}>
       <Chart
-        data={dataSource}
-        coord="polar"
-        scale={{
-          score: {
-            min: 0,
-            max: 120,
-            nice: false,
-            tickCount: 4,
-          },
-        }}
+        {...newOption}
       >
-        <Axis field="time" grid="line" />
-        <Axis field="value" grid="line" style={{ label: null }} />
-        <Line x="time" y="value" color="name" />
-        <Point x="time" y="value" color="name" />
+        <Axis {...xAxisProps} />
+        <Axis {...yAxisProps} style={{ label: null }} />
+        <Line {...lineProps} />
+        <Point x={fields[0]} y={fields[1]} color={dim} />
         <Tooltip
-          custom={true}
-          alwaysShow
-          defaultItem={dataSource[0]}
-          snap
-          showCrosshairs
+         {...tooltipProps}
           // tooltipMarkerStyle中不设置fill时，默认使用record 记录中color自动填充
           tooltipMarkerStyle={{
             r: 5,

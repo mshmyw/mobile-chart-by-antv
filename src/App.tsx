@@ -1,7 +1,7 @@
 import BarChart from './components/bar';
 import LineChart from './components/line';
 import RadarChart from './components/radar';
-import { mockLineData } from './mock-data';
+import { mockLineData, mockRadarData2 } from './mock-data';
 
 const dataSource = mockLineData
 
@@ -56,7 +56,7 @@ const barProps = {
 }
 
 const radarProps = {
-  data: dataSource,
+  data: mockRadarData2,
   dim: 'name',
   scale: [
     {
@@ -70,13 +70,13 @@ const radarProps = {
     },
   ],
   tooltip: {
-    defaultItem: dataSource[0]
+    defaultItem: mockRadarData2[0]
   },
   coord: {
     // 声明直角坐标系
-    type: 'rect',
+    type: 'polar',
     // 是否对坐标系进行转置
-    transposed: false,
+    // transposed: false,
   }
 }
 function App() {
@@ -84,7 +84,7 @@ function App() {
     <div className="app">
       {/* <BarChart  {...barProps} /> */}
       {/* <LineChart {...lineProps} /> */}
-      <RadarChart />
+      <RadarChart {...radarProps} />
     </div>
   );
 }
