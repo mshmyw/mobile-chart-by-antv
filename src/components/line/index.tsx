@@ -1,5 +1,5 @@
 import Canvas from '@antv/f-react';
-import { Chart, Line, Axis, Tooltip } from '@antv/f2'
+import { Legend, Chart, Line, Axis, Tooltip } from '@antv/f2'
 import { tooltipFormatter } from '../../utils/format';
 import { IRecord } from '../../types';
 import { deepMix } from "@antv/util";
@@ -11,6 +11,7 @@ import getTooltipProps from '../../base/tooltip/utils';
 
 interface LineChartProps {
   [key: string]: any
+  onTooltipChange?: any
 }
 const LineChart = (props: LineChartProps) => {
   const option = deepMix({}, defaultOption, props);
@@ -38,6 +39,7 @@ const LineChart = (props: LineChartProps) => {
   })
   const onTooltipChange = (records: IRecord[]) => {
     tooltipFormatter(records)
+    props?.onTooltipChange(records)
   }
   const convertChartScale = (scale: Record<string, any>[]) => {
     const chartScale = scale.reduce((acc: Record<string, any>, cur: Record<string, any>) => {

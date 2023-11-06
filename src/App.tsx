@@ -1,7 +1,10 @@
+import { useCallback, useState } from 'react';
+import F2Legend from './base/legend';
 import BarChart from './components/bar';
 import LineChart from './components/line';
 import RadarChart from './components/radar';
 import { mockLineData, mockRadarData2 } from './mock-data';
+import { IRecord } from './types';
 
 const dataSource = mockLineData
 
@@ -80,11 +83,22 @@ const radarProps = {
   }
 }
 function App() {
+  const [legendList, setLegendList] = useState<{name?: string; value?: string}[]>([])
+  const onTooltipChange =useCallback((records: IRecord[]) => {
+    if(records?.[0]?.origin?.value !== legendList?.[0]?.value) {
+      console.log("records======", records?.[0]?.origin)
+      setLegendList([{
+        name: records?.[0]?.origin?.name,
+        value: records?.[0]?.origin?.value,
+      }])
+    }
+  }, [])
   return (
     <div className="app">
+      <F2Legend legendList={legendList} />
       {/* <BarChart  {...barProps} /> */}
-      {/* <LineChart {...lineProps} /> */}
-      <RadarChart {...radarProps} />
+      <LineChart {...lineProps} onTooltipChange={onTooltipChange} />
+      {/* <RadarChart {...radarProps} /> */}
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { defaultOption } from './const';
 import getAxisProps from '../../base/axis/utils';
 import getLineProps from '../../base/line/utils';
 import getTooltipProps from '../../base/tooltip/utils';
+import { tooltipFormatter } from '../../utils/format';
+import { IRecord } from '../../types';
 
 
 interface RadarChartProps {
@@ -16,6 +18,7 @@ const RadarChart = (props: RadarChartProps) => {
   const fields = scale.map((item: any) => item.dataKey);
   const tickCounts = scale.map((item: any) => item.tickCount);
   const xAxisProps =getAxisProps({
+    xField: true,
     field: fields[0],
     tickCount: tickCounts[0],
     ...option.axis[0],
@@ -47,7 +50,10 @@ const RadarChart = (props: RadarChartProps) => {
     coord,
     scale: convertChartScale(scale)
   }
-
+  const onTooltipChange = (records: IRecord[]) => {
+    tooltipFormatter(records)
+    // console.log("record=====", records)
+  }
   const lineProps = getLineProps({
     dim,
     scale,
@@ -72,6 +78,7 @@ const RadarChart = (props: RadarChartProps) => {
             stroke: '#fff',
             lineWidth: '4px',
           }}
+          onChange={onTooltipChange}
         />
       </Chart>
     </Canvas>
