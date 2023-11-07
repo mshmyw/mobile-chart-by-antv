@@ -5,6 +5,7 @@ import LineChart from './components/line';
 import RadarChart from './components/radar';
 import { mockLineData, mockRadarData2 } from './mock-data';
 import { IRecord } from './types';
+import './App.css'
 
 const dataSource = mockLineData
 
@@ -85,7 +86,9 @@ const radarProps = {
 function App() {
   const [legendList, setLegendList] = useState<{name?: string; value?: string}[]>([])
   const onTooltipChange =useCallback((records: IRecord[]) => {
-    if(records?.[0]?.origin?.value !== legendList?.[0]?.value) {
+    const name = records?.[0]?.origin?.name
+    const value = records?.[0]?.origin?.value
+    if(name && value !== legendList?.[0]?.value) {
       console.log("records======", records?.[0]?.origin)
       setLegendList([{
         name: records?.[0]?.origin?.name,

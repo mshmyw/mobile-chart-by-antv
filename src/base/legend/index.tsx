@@ -16,7 +16,7 @@ const F2Legend: React.FC<LegendProps> = (props: LegendProps) => {
     const {legendList = []} = props
     const { name, value, color } = legendList?.[0] || {}
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div className={styles.legendWrapper}>
       <div
         className={styles.legend}
         style={{
@@ -24,8 +24,8 @@ const F2Legend: React.FC<LegendProps> = (props: LegendProps) => {
         }}
       ></div>
       <div>
-        <span>{name}: </span>
-        <span>{value}</span>
+        <span className={styles.name}>{name} </span>
+        <span className={styles.value}>{value}</span>
       </div>
     </div>
   );

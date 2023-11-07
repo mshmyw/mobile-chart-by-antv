@@ -1,6 +1,14 @@
+.legendWrapper {
+    display: flex;
+    align-items: center;
+    margin: 0 16px;
+}
 .legend {
     width: 16px;
     height: 8px;
     margin-right: 8px;
     background-color: #0b7ff7;
+}
+.name,.value {
+    font-size: 14px;
 }
