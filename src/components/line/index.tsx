@@ -1,3 +1,4 @@
+import {memo} from "react"
 import Canvas from '@antv/f-react';
 import { Legend, Chart, Line, Axis, Tooltip } from '@antv/f2'
 import { tooltipFormatter } from '../../utils/format';
@@ -77,4 +78,4 @@ const LineChart = (props: LineChartProps) => {
   )
 }
 
-export default LineChart
+export default memo(LineChart)
